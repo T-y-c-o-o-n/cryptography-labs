@@ -1,0 +1,3 @@
+/home/nsinyachenko/y2019/cryptography/cmake-build-debug/CMakeFiles/cryptography.dir
+/home/nsinyachenko/y2019/cryptography/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nsinyachenko/y2019/cryptography/cmake-build-debug/CMakeFiles/rebuild_cache.dir
