@@ -5,17 +5,17 @@
 int pollards_pi_method_discrete_logarithm(int g, int h, int p) {
     int p_1_3 = p / 3, p_2_3 = p * 2 / 3;
 
-    auto f = [g, h, p_1_3, p_2_3](int &x, int &g_degree, int &h_degree) {
+    auto f = [g, h, p, p_1_3, p_2_3](int &x, int &g_degree, int &h_degree) {
         if (x < p_1_3) {
-            ++g_degree;
-            x *= g;
+            g_degree = (g_degree + 1) % (p - 1);
+            x = mul_mod(x, g, p);
         } else if (x < p_2_3) {
-            g_degree *= 2;
-            h_degree *= 2;
-            x *= x;
+            g_degree = mul_mod(g_degree, 2, p - 1);
+            h_degree = mul_mod(h_degree, 2, p-1);
+            x = mul_mod(x, x, p);
         } else {
-            ++h_degree;
-            x *= h;
+            h_degree = (h_degree + 1) % (p - 1);
+            x = mul_mod(x, h, p);
         }
     };
 
@@ -23,6 +23,7 @@ int pollards_pi_method_discrete_logarithm(int g, int h, int p) {
     int i = 0, j = 0, k = 0, l = 0;
     do {
         f(a, i, j);
+        f(b, k, l);
         f(b, k, l);
     } while (a != b);
 
@@ -32,11 +33,14 @@ int pollards_pi_method_discrete_logarithm(int g, int h, int p) {
     // (i-k) = ans * (l-j) (mod p-1)
 
     int s, unused;
-    int d = gcd_extended(l - j, p - 1, s, unused);
+    int d = gcd_extended(sub_mod(l, j, p), p - 1, s, unused, p);
+
+    s = add_mod(s, p, p);
+    unused = add_mod(unused, p, p);
 
     // (i-k) * s = ans * d (mod p-1)
 
-    int w = (i - k) * s;
+    int w = mul_mod(sub_mod(i, k, p), s, p);
 
     if (w % d != 0) {
         throw std::runtime_error("inner property violation: w not divided by d");

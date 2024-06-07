@@ -12,4 +12,4 @@ int mul_mod(int a, int b, int mod);
 
 int pow(int a, int n, int p);
 
-int gcd_extended(int a, int b, int & x, int & y);
+int gcd_extended(int a, int b, int & x, int & y, int p);

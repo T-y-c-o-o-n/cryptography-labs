@@ -30,7 +30,7 @@ void check_correctness(int g, int h, int p) {
     int res1 = brute_force_discrete_logarithm(g, h, p);
     int res2 = babystep_giantstep_discrete_logarithm(g, h, p);
     int res3 = probalistic_collision_method_discrete_logarithm(g, h, p);
-    int res4 = 4;//pollards_pi_method_discrete_logarithm(g, h, p);
+    int res4 = pollards_pi_method_discrete_logarithm(g, h, p);
     if (res1 != res2 || res2 != res3 || res3 != res4) {
         std::cout << "different results for discrete logarithm with g=" << g << ", h=" << h << " and p=" << p << ":\n";
         std::cout << "brute_force -> " << res1 << "\n";
